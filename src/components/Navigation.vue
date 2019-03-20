@@ -1,0 +1,62 @@
+<template>
+<div class="container">
+    <div class="navigation_container">
+        <img src="../assets/Buzzer.png" />
+        <font-awesome-icon class="icon" icon="home" />
+        <font-awesome-icon class="icon" icon="comments" />
+    </div>
+    <div class="navigation_spacer"></div>
+    <font-awesome-icon class="icon" icon="cog" />
+    <font-awesome-icon class="icon" icon="sign-out-alt" @click="Logout()" />
+</div>
+</template>
+
+<script>
+export default {
+    name: 'Navigation',
+    methods: {
+        Logout(){
+            this.$store.commit('SET_TOKEN', null)
+            this.$router.push({path: '/'})
+        }
+    }
+}
+</script>
+
+<style scoped>
+.container{
+    width:70px;
+    height:100vh;
+    background:#121212;
+    position:fixed;
+    display:flex;
+    flex-direction: column;
+}
+.navigation_container{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.icon{
+    color:#fbfbfb;
+    font-size: 28px;
+    margin: 5px 0px;
+    padding: 10px 0px;
+    width:100%;
+    cursor:pointer;
+    transition: all .2s;
+}
+.icon:hover{
+    color:#e32b96;
+    background:#fbfbfb;
+}
+.navigation_spacer{
+    flex-grow:1;
+}
+img{
+    width:50%;
+    margin: 10px 0px 25px;
+}
+</style>
+

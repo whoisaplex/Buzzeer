@@ -1,31 +1,39 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <Navigation v-if="isNotStartPage"/>
+    <router-view :class="{'router' : isNotStartPage}"/>
   </div>
 </template>
 
+<script>
+import Navigation from './components/Navigation'
+export default {
+  name: 'App',
+  components: {
+    Navigation
+  },
+  computed: {
+    isNotStartPage(){
+      if(this.$route.path !== '/' || this.$route.path !== '/signup') return false
+      return true
+    }
+  }
+}
+</script>
+
+
 <style>
+*{
+  padding:0px;
+  margin:0px;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  width: 100vw;
+  display:flex;
+  background: #fbfbfb;
 }
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+.router{ margin-left:70px; }
 </style>
