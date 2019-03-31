@@ -1,12 +1,32 @@
 <template>
 <div class="spinner_container">
-    <div class="spinner"></div>
+    <div class="spinner" :style="{'border-color' : getColor()}"></div>
 </div>
 </template>
 
 <script>
 export default {
-    name: 'LoadingSpinner'
+  name: 'LoadingSpinner',
+  props: {
+    color: {
+      type: String,
+      required: false
+    }
+  },
+  methods: {
+    getColor(){
+      if(this.color === undefined) return 'grey transparent grey transparent'
+      const CHOOSEN_COLOR = this.returnColor()
+      return `${CHOOSEN_COLOR} transparent ${CHOOSEN_COLOR} transparent`
+    },
+    returnColor(){
+      switch(this.color){
+        case 'pink': return '#a53375'
+        case 'white': return '#FFFFFF'
+        default: return 'grey'
+      }
+    }
+  }
 }
 </script>
 
@@ -20,7 +40,7 @@ export default {
     width:100px;
     height:100px;
 }
-.spinner::after{
+.spinner{
     content: " ";
     display: block;
     width: 46px;
@@ -28,7 +48,6 @@ export default {
     margin: 1px;
     border-radius: 50%;
     border: 5px solid #fff;
-    border-color: grey transparent grey transparent;
     animation: loading_animation 1.2s linear infinite;
 }
 @keyframes loading_animation {

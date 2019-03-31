@@ -14,8 +14,8 @@ export default {
   },
   computed: {
     isNotStartPage(){
-      if(this.$route.path !== '/' || this.$route.path !== '/signup') return false
-      return true
+      if(this.$route.path !== '/' && this.$route.path !== '/signup') return true
+      return false
     }
   }
 }
@@ -36,4 +36,10 @@ export default {
   background: #fbfbfb;
 }
 .router{ margin-left:70px; }
+.flex_column_middle{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>

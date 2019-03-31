@@ -42,7 +42,7 @@ export default {
                     const DECODED_TOKEN = jwt_decode(response.data)
                     this.$store.commit('SET_TOKEN', response.data)
                     this.$store.commit('SET_TOKEN_DATA', DECODED_TOKEN.TOKEN_DATA)
-                    this.$router.push({path: '/home'})
+                    this.$router.push({ path: '/home' })
                 }).catch(err => {
                     //Invalid Credentials
                 })

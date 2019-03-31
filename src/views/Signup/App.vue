@@ -1,5 +1,15 @@
 <template>
-<div class="signup_container">
+<div v-if="is_SIGNING || is_CONFIRMED" class="actions_container">
+    <div v-if="is_CONFIRMED" class="flex_column_middle">
+        <font-awesome-icon icon="check-square" class="icon" />
+        <h1>Account created!</h1>
+        <button @click="GOTO_Login()">Login</button>
+    </div>
+    <LoadingSpinner v-if="is_SIGNING"
+    color="pink" 
+    />
+</div>
+<div v-else class="signup_container">
     <div class="logo_container">
         <h1>Buzzeer</h1>
         <img src="../../assets/Buzzer.png"/>
@@ -14,10 +24,17 @@
 </template>
 
 <script>
+import LoadingSpinner from '@/components/LoadingSpinner'
 export default {
     name: 'Signup',
+    components: {
+        LoadingSpinner
+    },
     data(){
         return{
+            is_SIGNING: false,
+            is_CONFIRMED: false,
+
             signup_username: '',
             signup_firstname: '',
             signup_lastname: '',
@@ -28,6 +45,7 @@ export default {
     methods: {
         signup(){
             if(this.register_check()){
+                this.is_SIGNING = true
                 this.axios.post('/user/register', 
                 {
                     username: this.signup_username,
@@ -35,8 +53,10 @@ export default {
                     lastName: this.signup_lastname,
                     password: this.signup_password
                 }).then(response => {
-                    this.$router.push({path: '/'})
+                    this.is_SIGNING = false
+                    this.is_CONFIRMED = true
                 }).catch(err => {
+                    this.is_SIGNING = false
                     console.log('Username alredy exists')
                 })
             }
@@ -50,21 +70,21 @@ export default {
                 this.signup_password_confirm !== ''
             )
             {
-                if(this.signup_password === this.signup_password_confirm){
-                    return true
-                }else{
-                    return false
-                }
+                if(this.signup_password === this.signup_password_confirm) return true
+                return false
             }else{
                 return false
             }
+        },
+        GOTO_Login(){
+            this.$router.push({ path: '/' })
         }
     }
 }
 </script>
 
 <style scoped>
-.signup_container{
+.signup_container, .actions_container{
     width:100vw;
     height:100vh;
     background: #1c1c1c;
@@ -115,6 +135,13 @@ img{
     display:flex;
     align-items: center;
     font-size: 30px;
+    color:white;
+}
+.icon{
+    color:#a53375;
+    font-size:5em;
+}
+h1{
     color:white;
 }
 </style>

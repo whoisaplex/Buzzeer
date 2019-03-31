@@ -6,10 +6,10 @@ import store from './store'
 import router from './router'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCommentDots, faHeart, faRetweet, faCog, faHome, faComments, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCommentDots, faHeart, faRetweet, faCog, faHome, faComments, faSignOutAlt, faCheckSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faCommentDots, faHeart, faRetweet, faCog, faHome, faComments, faSignOutAlt)
+library.add(faCommentDots, faHeart, faRetweet, faCog, faHome, faComments, faSignOutAlt, faCheckSquare)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueAxios, Axios)
 
