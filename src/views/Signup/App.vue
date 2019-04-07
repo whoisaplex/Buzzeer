@@ -46,7 +46,7 @@ export default {
         signup(){
             if(this.register_check()){
                 this.is_SIGNING = true
-                this.axios.post('/user/register', 
+                this.axios.post('/userCredentials/register', 
                 {
                     username: this.signup_username,
                     firstName: this.signup_firstname,

@@ -34,7 +34,7 @@ export default {
         },
         login(){
             if(this.login_username !== '' && this.login_password !== ''){
-                this.axios.post('/user/login', 
+                this.axios.post('/userCredentials/login', 
                 {
                     username: this.login_username,
                     password: this.login_password

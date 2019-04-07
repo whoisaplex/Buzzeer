@@ -1,7 +1,6 @@
 <template>
 <div class="container_sub">
-    <input type="text" placeholder="Search..."/>
-    <button @click="$parent.StartTweet()">Buzz</button>
+    <button @click="$emit('startBuzz')">Buzz</button>
 </div>
 </template>
 
@@ -15,7 +14,7 @@ export default {
 .container_sub{
     display: flex;
     justify-content: flex-end;
-    width: calc(100% / 3);
+    width: calc(100% / 3 - 210px);
 }
 button{
     padding: 9px 25px;
@@ -27,13 +26,5 @@ button{
     border-radius: 7px;
     cursor: pointer;
     outline: none;
-}
-input{
-    width:210px;
-    border:none;
-    border-radius: 7px;
-    padding-left:10px;
-    outline:none;
-    font-weight: bold;
 }
 </style>

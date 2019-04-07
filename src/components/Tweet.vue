@@ -5,7 +5,9 @@
         <div class="tweet_content">
             <div class="tweet_content_user">
                 <h1>{{Tweet.creatorName}}</h1>
-                <h2>@{{Tweet.creatorUsername}}</h2>
+                <h2 @click="$router.push({ name: 'user', params: { userid: Tweet.creatorUsername } })">
+                    @{{Tweet.creatorUsername}}
+                </h2>
                 <h3>- {{Tweet.created}}</h3>
             </div>
             <div class="tweet_content_body">
@@ -45,8 +47,8 @@ export default {
 <style scoped>
 .tweet_container{
     width:100%;
-    background:#fbfbfb;
-    box-shadow: 0px 1px 2px #bcbcbc;
+    background:#1d1d1d;
+    box-shadow: 0px 1px 2px #0d0d0d;
     border-radius: 5px;
     margin-top: 20px;
 }
@@ -75,7 +77,7 @@ export default {
 .tweet_content_body{
     display:flex;
     margin-top:10px;
-    color:#1c1c1c;
+    color:#ffffff;
 }
 .tweet_action_row{
     width: calc(100% - 70px);
@@ -101,10 +103,15 @@ export default {
 h1{
     font-size:1.3em;
     color: #1c1c1c;
+    color:#ffffff;
 }
 h2{
     color: #e32b96;
     font-weight: bold;
+    cursor:pointer;
+}
+h2:hover{
+    text-decoration: underline;
 }
 h3{
     font-weight: normal;

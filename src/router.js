@@ -6,6 +6,7 @@ import store from './store'
 import StartPage from './views/StartPage/App'
 import Signup from './views/Signup/App'
 import Home from './views/Home/App'
+import User from './views/User/App'
 
 Vue.use(Router)
 
@@ -19,14 +20,19 @@ const router = new Router({
       component: StartPage
     },
     {
+      path: '/signup',
+      name: 'signup',
+      component: Signup
+    },
+    {
       path: '/home',
       name: 'home',
       component: Home
     },
     {
-      path: '/signup',
-      name: 'signup',
-      component: Signup
+      path: '/user/:userid',
+      name: 'user',
+      component: User
     }
   ]
 })
@@ -41,6 +47,7 @@ router.beforeEach((to, from, next) => {
   }else{
     next('/')
   }
+  //next()
 })
 
 export default router

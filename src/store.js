@@ -6,14 +6,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   plugins: [createPersistedState({
-    paths: ['AUTH_TOKEN']
+    paths: ['AUTH_TOKEN', 'User']
   })],
   state: {
     AUTH_TOKEN: null,
     User: {
-      UserID: '123',
-      Fullname: 'Alexander Dahlberg',
-      Username: 'Aplex'
+      UserID: '',
+      Fullname: '',
+      Username: ''
     }
   },
   mutations: {

@@ -1,13 +1,19 @@
 <template>
 <div class="container_sub">
-  <h1>{{$store.state.User.Fullname}}</h1>
-  <h2>@{{$store.state.User.Username}}</h2>
+  <h1>{{User.firstName}} {{User.lastName}}</h1>
+  <h2>@{{User.username}}</h2>
 </div>
 </template>
 
 <script>
 export default {
-    name: 'UserInfo'
+    name: 'UserInfo',
+    props: {
+        User: {
+            type: Object,
+            required: true
+        }
+    }
 }
 </script>
 

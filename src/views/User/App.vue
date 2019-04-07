@@ -1,29 +1,25 @@
 <template>
 <div class="container">
     <div class="banner_container">
-        <div class="profile_picture"></div>
+        <div v-if="!CHECK_hasError" class="profile_picture"></div>
     </div>
     <div class="Home_navigation_container">
-        <UserInfo :User="User"/>
-        <UserStats :User="User"/>
-        <UserSearch/>
-        <UserTweetButton @startBuzz="startBuzz"/>
+        <UserInfo :User="User" v-if="!CHECK_hasError"/>
+        <UserStats :User="User" v-if="!CHECK_hasError"/>
+        <UserSearch :isSolo="CHECK_hasError"/>
+        <UserFollowButton v-if="!CHECK_hasError"/>
     </div>
     <div class="tweets_container">
         <div class="tweets_container_inner">
             <Loader v-if="!hasLoaded && !hasError" />
-            <h3 v-if="hasLoaded && hasError" class="error_msg">
-                There was an error loading your buzzers
+            <h3 v-if="CHECK_hasError" class="error_msg">
+                Error: {{errorMsg}}
             </h3>
-            <h3 v-if="hasLoaded && !hasError && this.Buzzees.length < 1 && !isTweeting" class="error_msg">
-                You haven't Buzzed anything yet!
+            <h3 v-if="!CHECK_hasError && this.Buzzees.length < 1" class="error_msg">
+                {{$route.params.userid}} haven't Buzzed anything yet!
             </h3>
-            <NewTweet v-if="isTweeting" 
-                @cancelBuzz="cancelBuzz" 
-                @addNewBuzz="addNewBuzz"
-            />
-            <template v-if="hasLoaded && !hasError">
-                <Tweet
+            <template v-if="!CHECK_hasError">
+                <Tweet 
                     v-for="Tweet in Buzzees" 
                     :key="Tweet.id" 
                     :Tweet="Tweet"
@@ -37,64 +33,61 @@
 <script>
 import UserStats from '@/components/UserViewComponents/UserStats'
 import UserInfo from '@/components/UserViewComponents/UserInfo'
-import UserTweetButton from '@/components/UserViewComponents/UserTweetButton'
 import UserSearch from '@/components/UserViewComponents/UserSearch'
-import NewTweet from '@/components/UserViewComponents/NewTweet'
+import UserFollowButton from './Components/UserFollowButton'
+import debounce from '@/globals/debounce'
 
 import Tweet from '@/components/Tweet'
 import Loader from '@/components/LoadingSpinner'
-import debounce from '@/globals/debounce'
+import { resolve } from 'q';
 
 export default {
     name: 'Home',
     components: {
         UserStats,
         UserInfo,
-        UserTweetButton,
+        UserFollowButton,
         UserSearch,
         Tweet,
-        NewTweet,
         Loader
     },
     data () {
         return {
             Buzzees: [],
+            User: {},
             PreviousBuzzeesLength: 0,
             BuzzeesOffset: 0,
             CanLoadBuzzees: true,
-            User: {},
             hasLoaded: false,
             hasError: false,
+            errorMsg: '',
             isTweeting: false,
             isLoadingAdditionalBuzzees: false
         }
     },
+    computed: {
+        CHECK_hasError () {
+            if(this.hasLoaded === true && this.hasError === true) return true
+            return false
+        }
+    },
     methods: {
-        startBuzz(){
-            this.isTweeting = true
-        },
-        cancelBuzz(){
-            this.isTweeting = false
-        },
-        addNewBuzz(buzz){
-            this.Buzzees.unshift(buzz)
-        },
-        async dataInitializer(){
+        async dataInitializer() {
             const User = await this.getUser()
             if(User.error){
+                this.errorMsg = User.error
                 this.hasLoaded = true
                 this.hasError = true
                 return
             }
             this.User = User
             const Buzzees = await this.getBuzzees(0)
-            this.SET_CanLoadBuzzees(Buzzees.length)
-
             this.Buzzees = Buzzees
             this.hasLoaded = true
             this.hasError = false
+
         },
-        loadAdditionalBuzzes: debounce(async function(){
+        loadAdditionalBuzzes: debounce(async function() {
             if((this.CanLoadBuzzees && !this.isLoadingAdditionalBuzzees && window.innerHeight + window.scrollY) >= document.body.offsetHeight){
                 this.BuzzeesOffset += 5
                 this.isLoadingAdditionalBuzzees = true
@@ -104,8 +97,8 @@ export default {
                 this.Buzzees.push(...Buzzees)
             }
         }, 200),
-        getUser(){
-            return this.axios.get('/users', { params: { username: this.$store.state.User.Username } })
+        getUser() {
+            return this.axios.get('/users', { params: { username: this.$route.params.userid } })
             .then(response => {
                 return response.data
             })
@@ -113,8 +106,8 @@ export default {
                 return error.response.data
             })
         },
-        getBuzzees(offset){
-            return this.axios.get('/', { params: { username: this.$store.state.User.Username, offset } })
+        getBuzzees(offset) {
+            return this.axios.get('/', { params: { username: this.$route.params.userid, offset } })
             .then(response => {
                 return response.data
             })
@@ -122,12 +115,12 @@ export default {
                 return error.response.data
             })
         },
-        SET_CanLoadBuzzees(BuzzeesSize){
+        SET_CanLoadBuzzees(BuzzeesSize) {
             if(BuzzeesSize === 5) return this.CanLoadBuzzees = true
             this.CanLoadBuzzees = false
         }
     },
-    mounted () {
+    mounted() {
         window.addEventListener('scroll', this.loadAdditionalBuzzes)
         this.dataInitializer()
     },

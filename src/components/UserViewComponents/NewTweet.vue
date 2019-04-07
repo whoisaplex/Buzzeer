@@ -2,8 +2,8 @@
 <div class="container_newtweet">
     <textarea v-model="TweetText" placeholder="What do you want to talk about?"/>
     <div class="action_container">
-        <button @click="$parent.CancelTweet()" class="cancel_button">Cancel</button>
-        <button @click="PostTweet()">Buzz</button>
+        <button @click="$emit('cancelBuzz')" class="cancel_button">Cancel</button>
+        <button @click="postBuzz()">Buzz</button>
     </div>
 </div>
 </template>
@@ -17,7 +17,7 @@ export default {
         }
     },
     methods: {
-        PostTweet(){
+        postBuzz(){
             this.axios.post('/Tweet', {
                 UserID: this.$store.state.User.UserID,
                 Fullname: this.$store.state.User.Fullname,
@@ -25,8 +25,8 @@ export default {
                 content: this.TweetText
             })
             .then((response) => {
-                this.$parent.AddNewTweet(response.data)
-                this.$parent.CancelTweet()
+                this.$emit('addNewBuzz', response.data)
+                this.$emit('cancelBuzz')
             })
         }
     }
@@ -36,8 +36,8 @@ export default {
 <style scoped>
 .container_newtweet{
     width:40vw;
-    background:#fbfbfb;
-    box-shadow: 0px 1px 2px #bcbcbc;
+    background:#1d1d1d;
+    box-shadow: 0px 1px 2px #0d0d0d;
     border-radius: 5px;
     display:flex;
     flex-direction: column;
@@ -46,6 +46,7 @@ export default {
 textarea{
     width:calc(100% - 40px);
     height:60px;
+    background: #202020;
     resize: none;
     outline:none;
     box-shadow: 0px 0px 1px #bcbcbc;
@@ -54,6 +55,7 @@ textarea{
     border: none;
     border-radius: 0px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    color: #ffffff;
 }
 textarea::placeholder{
     color:#999999;
@@ -76,7 +78,7 @@ button{
 }
 .cancel_button{
     background: none;
-    color: #121212;
+    color: #ffffff;
 }
 </style>
 

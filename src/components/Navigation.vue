@@ -17,6 +17,7 @@ export default {
     methods: {
         Logout(){
             this.$store.commit('SET_TOKEN', null)
+            this.$store.commit('SET_TOKEN_DATA', {Id: '', Fullname: '', Username: ''})
             this.$router.push({path: '/'})
         }
     }

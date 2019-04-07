@@ -27,15 +27,19 @@ export default {
   padding:0px;
   margin:0px;
 }
+body{
+  max-width:100%;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 100vw;
   display:flex;
-  background: #fbfbfb;
+  background: #191919;
+  max-width: 100%;
 }
-.router{ margin-left:70px; }
+.router{ margin-left:70px;}
 .flex_column_middle{
   display:flex;
   flex-direction: column;

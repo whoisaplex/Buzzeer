@@ -2,24 +2,30 @@
 <div class="container_sub">
     <div class="navigation_item">
             <p>Buzzers</p>
-            <span>102</span>
+            <span>{{User.buzzers}}</span>
         </div>
 
         <div class="navigation_item">
             <p>Rebuzzers</p>
-            <span>56</span>
+            <span>{{User.rebuzzers}}</span>
         </div>
 
         <div class="navigation_item">
             <p>Followers</p>
-            <span>136 K</span>
+            <span>{{User.followers}}</span>
         </div>
 </div>
 </template>
 
 <script>
 export default {
-    name: 'UserStats'
+    name: 'UserStats',
+    props: {
+        User: {
+            type: Object,
+            required: true
+        }
+    }
 }
 </script>
 
