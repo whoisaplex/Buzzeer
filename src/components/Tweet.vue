@@ -9,6 +9,15 @@
                     @{{Tweet.creatorUsername}}
                 </h2>
                 <h3>- {{Tweet.created}}</h3>
+                <div class="spacer"></div>
+                <font-awesome-icon @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
+                <div class="buzz_option_container" 
+                    :style="{'display' : ToggleOptions ? 'flex' : 'none' }"
+                    @click="deleteBuzz()"
+                >
+                    <font-awesome-icon class="delete_icon buzz_option" icon="trash" />
+                    <p>Delete</p>
+                </div>
             </div>
             <div class="tweet_content_body">
                 <p>{{Tweet.content}}</p>
@@ -39,6 +48,17 @@ export default {
         Tweet: {
             type: Object,
             required: true
+        }
+    },
+    data(){
+        return{
+            ToggleOptions: false
+        }
+    },
+    methods: {
+        deleteBuzz(){
+            this.ToggleOptions = false
+            this.$emit('deleteBuzz', this.Tweet.id)
         }
     }
 }
@@ -100,6 +120,7 @@ export default {
     margin-right: 5px;
     color: #a61e6d;
 }
+.buzz_option {cursor: pointer;}
 h1{
     font-size:1.3em;
     color: #1c1c1c;
@@ -120,5 +141,21 @@ h3{
 h2, h3{
     font-size:0.9em;
     margin-left: 10px;
+}
+.buzz_option_container{
+    width: 150px; 
+    display: none; 
+    background: #212121; 
+    position:absolute; 
+    transform: translate(calc(40vw - 250px + 65px), 30px);
+    box-shadow: 0px 1px 2px #00000080;
+    color:#F44336;
+    cursor:pointer;
+}
+.buzz_option_container p {
+    padding: 10px 0px 10px 5px;
+}
+.buzz_option_container .delete_icon {
+    padding: 10px 0px 10px 5px;
 }
 </style>

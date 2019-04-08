@@ -40,6 +40,7 @@ body{
   max-width: 100%;
 }
 .router{ margin-left:70px;}
+.spacer{ flex-grow: 1;}
 .flex_column_middle{
   display:flex;
   flex-direction: column;

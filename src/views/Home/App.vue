@@ -27,6 +27,7 @@
                     v-for="Tweet in Buzzees" 
                     :key="Tweet.id" 
                     :Tweet="Tweet"
+                    @deleteBuzz="deleteBuzz"
                 />
             </template>
         </div>
@@ -78,6 +79,13 @@ export default {
         },
         addNewBuzz(buzz){
             this.Buzzees.unshift(buzz)
+        },
+        deleteBuzz(id){
+            let index = this.Buzzees.map(Buzz => Buzz.id).indexOf(id)
+            this.axios.delete('/deleteBuzz', {data: {id, user_id: this.$store.state.User.UserID}})
+            .then(() => {
+                this.Buzzees.splice(index, 1)
+            })
         },
         async dataInitializer(){
             const User = await this.getUser()
