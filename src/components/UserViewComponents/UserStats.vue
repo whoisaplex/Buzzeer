@@ -12,7 +12,7 @@
 
         <div class="navigation_item">
             <p>Followers</p>
-            <span>{{User.followers}}</span>
+            <span>{{User.followersSize}}</span>
         </div>
 </div>
 </template>

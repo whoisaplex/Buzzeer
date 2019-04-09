@@ -1,12 +1,28 @@
 <template>
 <div class="container_sub">
-    <button @click="$emit('')">Follow</button>
+    <button @click="onFollow()">{{User.isfollowing ? 'Unfollow' : 'Follow'}}</button>
 </div>
 </template>
 
 <script>
 export default {
-    name: 'UserFollowButton'
+    name: 'UserFollowButton',
+    props: {
+        User: {
+            type: Object,
+            required: true
+        }
+    },
+    methods: {
+        onFollow(){
+            const data = {User_id: this.User.id, My_id: this.$store.state.User.UserID}
+            if(this.User.isfollowing){
+                this.axios.post('/users/unfollow', data).then(response => this.User.isfollowing = !this.User.isfollowing)
+            }else{
+                this.axios.post('/users/follow', data).then(response => this.User.isfollowing = !this.User.isfollowing) 
+            }
+        }
+    }
 }
 </script>
 
