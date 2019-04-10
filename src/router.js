@@ -43,11 +43,11 @@ router.beforeEach((to, from, next) => {
     if(axios.defaults.headers.common['Authorization'] === undefined){
       axios.defaults.headers.common = {'Authorization': `bearer ${store.state.AUTH_TOKEN}`}
     }
+    if(to.name === 'user' && to.params.userid === store.state.User.Username) return next('/home')
     next()
   }else{
     next('/')
   }
-  //next()
 })
 
 export default router

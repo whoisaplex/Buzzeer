@@ -7,7 +7,7 @@
         <UserInfo :User="User" v-if="!CHECK_hasError"/>
         <UserStats :User="User" v-if="!CHECK_hasError"/>
         <UserSearch :isSolo="CHECK_hasError"/>
-        <UserFollowButton v-if="!CHECK_hasError"/>
+        <UserFollowButton v-if="!CHECK_hasError" :User="User"/>
     </div>
     <div class="tweets_container">
         <div class="tweets_container_inner">
@@ -39,7 +39,6 @@ import debounce from '@/globals/debounce'
 
 import Tweet from '@/components/Tweet'
 import Loader from '@/components/LoadingSpinner'
-import { resolve } from 'q';
 
 export default {
     name: 'Home',
@@ -83,9 +82,9 @@ export default {
             this.User = User
             const Buzzees = await this.getBuzzees(0)
             this.Buzzees = Buzzees
+            
             this.hasLoaded = true
             this.hasError = false
-
         },
         loadAdditionalBuzzes: debounce(async function() {
             if((this.CanLoadBuzzees && !this.isLoadingAdditionalBuzzees && window.innerHeight + window.scrollY) >= document.body.offsetHeight){
@@ -98,7 +97,7 @@ export default {
             }
         }, 200),
         getUser() {
-            return this.axios.get('/users', { params: { username: this.$route.params.userid } })
+            return this.axios.get('/users', { params: { username: this.$route.params.userid, my_id: this.$store.state.User.UserID } })
             .then(response => {
                 return response.data
             })

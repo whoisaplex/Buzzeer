@@ -113,7 +113,7 @@ export default {
             }
         }, 200),
         getUser(){
-            return this.axios.get('/users', { params: { username: this.$store.state.User.Username } })
+            return this.axios.get('/users', { params: { username: this.$store.state.User.Username, my_id: this.$store.state.User.UserID } })
             .then(response => {
                 return response.data
             })
