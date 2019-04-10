@@ -1,6 +1,8 @@
 <template>
 <div class="container_sub">
-    <button @click="onFollow()">{{User.isfollowing ? 'Unfollow' : 'Follow'}}</button>
+    <button @click="onFollow()" :style="{'background': User.isfollowing ? '#7c1a53' : '#e32b96'}">
+        {{User.isfollowing ? 'Unfollow' : 'Follow'}}
+    </button>
 </div>
 </template>
 
@@ -13,13 +15,26 @@ export default {
             required: true
         }
     },
+    data () {
+        return {
+            isLoading: false
+        }
+    },
     methods: {
         onFollow(){
+            if(this.isLoading) return
             const data = {User_id: this.User.id, My_id: this.$store.state.User.UserID}
+            this.isLoading = true
             if(this.User.isfollowing){
-                this.axios.post('/users/unfollow', data).then(response => this.User.isfollowing = !this.User.isfollowing)
+                this.axios.post('/users/unfollow', data).then(response => {
+                    this.User.isfollowing = !this.User.isfollowing
+                    this.isLoading = false
+                })
             }else{
-                this.axios.post('/users/follow', data).then(response => this.User.isfollowing = !this.User.isfollowing) 
+                this.axios.post('/users/follow', data).then(response => { 
+                    this.User.isfollowing = !this.User.isfollowing
+                    this.isLoading = false
+                }) 
             }
         }
     }
