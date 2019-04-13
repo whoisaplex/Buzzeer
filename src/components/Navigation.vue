@@ -32,6 +32,7 @@ export default {
     position:fixed;
     display:flex;
     flex-direction: column;
+    z-index:1;
 }
 .navigation_container{
     width:100%;

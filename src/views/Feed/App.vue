@@ -1,5 +1,6 @@
 <template>
 <div class="feed_container">
+    <FeedNavigation />
     <div class="Buzz_container">
         <newBuzz
             v-show="!isPostingBuzz" 
@@ -20,6 +21,7 @@
 import Buzz from '@/components/Tweet'
 import newBuzz from '@/components/UserViewComponents/NewTweet'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import FeedNavigation from './Components/FeedNavigation'
 import debounce from '@/globals/debounce'
 
 export default {
@@ -27,7 +29,8 @@ export default {
     components:{
         Buzz,
         newBuzz,
-        LoadingSpinner
+        LoadingSpinner,
+        FeedNavigation
     },
     mounted(){
         window.addEventListener('scroll', this.loadAdditionalBuzzes)
@@ -94,11 +97,12 @@ export default {
     min-height: 100vh;
     background:#191919;
     display:flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 .Buzz_container{
     width:40vw;
-    margin-top: 20px;
+    margin-top: 70px;
     padding-bottom: 20px;
 }
 </style>
