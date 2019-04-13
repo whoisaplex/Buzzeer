@@ -1,8 +1,8 @@
 <template>
 <div class="container">
     <div class="navigation_container">
-        <img src="../assets/Buzzer.png" />
-        <font-awesome-icon class="icon" icon="home" />
+        <img @click="$router.push({name: 'feed'})" src="../assets/Buzzer.png" />
+        <font-awesome-icon @click="$router.push({name: 'home'})" class="icon" icon="home" />
         <font-awesome-icon class="icon" icon="comments" />
     </div>
     <div class="navigation_spacer"></div>
@@ -57,7 +57,8 @@ export default {
 }
 img{
     width:50%;
-    margin: 10px 0px 25px;
+    margin: 10px 0px 10px;
+    cursor:pointer;
 }
 </style>
 

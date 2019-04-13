@@ -101,6 +101,7 @@ button{
 .disabled{
     background:#3a3a3a;
     color: #9b9b9b;
+    cursor:default;
 }
 </style>
 
