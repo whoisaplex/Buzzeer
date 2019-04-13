@@ -23,6 +23,7 @@
                     v-for="Tweet in Buzzees" 
                     :key="Tweet.id" 
                     :Tweet="Tweet"
+                    :isOwner="false"
                 />
             </template>
         </div>
