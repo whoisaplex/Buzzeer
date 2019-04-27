@@ -26,8 +26,8 @@
         </div>
     </div>
     <div class="tweet_action_row">
-        <div class="action_item_container">
-            <font-awesome-icon class="icon" :icon="[svgHeartStyle, 'heart']" />
+        <div class="action_item_container" @click="likeBuzz()">
+            <font-awesome-icon class="icon" :class="{'hearticon_color' : svgHeartStyle.toggle}" :icon="[svgHeartStyle.name, 'heart']" />
             <p>{{Tweet.likes}}</p>
         </div>
         <div class="action_item_container">
@@ -59,13 +59,20 @@ export default {
     data(){
         return{
             ToggleOptions: false,
-            svgHeartStyle: 'far'
+            svgHeartStyle: {
+                name: 'far',
+                toggle: false
+            }
         }
     },
     methods: {
         deleteBuzz(){
             this.ToggleOptions = false
             this.$emit('deleteBuzz', this.Tweet.id)
+        },
+        likeBuzz(){
+            this.svgHeartStyle.toggle = !this.svgHeartStyle.toggle
+            this.svgHeartStyle.name = this.svgHeartStyle.toggle ? 'fas' : 'far'
         }
     }
 }
@@ -126,6 +133,12 @@ export default {
 .icon{
     margin-right: 5px;
     color: #a61e6d;
+}
+.hearticon_color{
+    color:#43A047;
+}
+.action_item_container:hover .hearticon_color{
+    color:#66BB6A;
 }
 .buzz_option {cursor: pointer;}
 h1{
