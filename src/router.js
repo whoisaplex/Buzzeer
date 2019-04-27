@@ -7,6 +7,7 @@ import StartPage from './views/StartPage/App'
 import Signup from './views/Signup/App'
 import Home from './views/Home/App'
 import User from './views/User/App'
+import Feed from './views/Feed/App'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ const router = new Router({
       path: '/user/:userid',
       name: 'user',
       component: User
+    },
+    {
+      path: '/feed',
+      name: 'feed',
+      component: Feed
     }
   ]
 })

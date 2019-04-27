@@ -10,8 +10,9 @@
                 </h2>
                 <h3>- {{Tweet.created}}</h3>
                 <div class="spacer"></div>
-                <font-awesome-icon @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
-                <div class="buzz_option_container" 
+                <font-awesome-icon v-if="isOwner" @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
+                <div v-if="isOwner"
+                    class="buzz_option_container" 
                     :style="{'display' : ToggleOptions ? 'flex' : 'none' }"
                     @click="deleteBuzz()"
                 >
@@ -26,7 +27,7 @@
     </div>
     <div class="tweet_action_row">
         <div class="action_item_container">
-            <font-awesome-icon class="icon" icon="heart" />
+            <font-awesome-icon class="icon" :icon="[svgHeartStyle, 'heart']" />
             <p>{{Tweet.likes}}</p>
         </div>
         <div class="action_item_container">
@@ -48,11 +49,17 @@ export default {
         Tweet: {
             type: Object,
             required: true
+        },
+        isOwner: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     data(){
         return{
-            ToggleOptions: false
+            ToggleOptions: false,
+            svgHeartStyle: 'far'
         }
     },
     methods: {

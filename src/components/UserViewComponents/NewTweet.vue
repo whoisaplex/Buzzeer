@@ -1,9 +1,9 @@
 <template>
 <div class="container_newtweet">
-    <textarea v-model="TweetText" placeholder="What do you want to talk about?"/>
+    <textarea v-model="BuzzText" placeholder="What do you want to talk about?"/>
     <div class="action_container">
-        <button @click="$emit('cancelBuzz')" class="cancel_button">Cancel</button>
-        <button @click="postBuzz()">Buzz</button>
+        <button @click="$emit('cancelBuzz')" v-if="hasCancel" class="cancel_button">Cancel</button>
+        <button @click="postBuzz()" :class="{'disabled': isDisabled}">Buzz</button>
     </div>
 </div>
 </template>
@@ -11,22 +11,40 @@
 <script>
 export default {
     name: 'NewTweet',
+    props: {
+        hasCancel: {
+            type: Boolean,
+            required: false,
+            default: true
+        }
+    },
     data(){
         return {
-            TweetText: ''
+            BuzzText: ''
+        }
+    },
+    computed: {
+        isDisabled(){
+            return this.BuzzText.length === 0
         }
     },
     methods: {
         postBuzz(){
+            if(this.isDisabled) return
+            this.$emit('startLoader')
             this.axios.post('/Tweet', {
                 UserID: this.$store.state.User.UserID,
                 Fullname: this.$store.state.User.Fullname,
                 Username: this.$store.state.User.Username,
-                content: this.TweetText
+                content: this.BuzzText
             })
             .then((response) => {
                 this.$emit('addNewBuzz', response.data)
-                this.$emit('cancelBuzz')
+                this.$emit('stopLoader')
+                this.BuzzText = ''
+                if(this.hasCancel) this.$emit('cancelBuzz')
+            }).catch(error => {
+                this.$emit('stopLoader')
             })
         }
     }
@@ -79,6 +97,11 @@ button{
 .cancel_button{
     background: none;
     color: #ffffff;
+}
+.disabled{
+    background:#3a3a3a;
+    color: #9b9b9b;
+    cursor:default;
 }
 </style>
 
