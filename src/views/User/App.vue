@@ -107,7 +107,7 @@ export default {
             })
         },
         getBuzzees(offset) {
-            return this.axios.get('/', { params: { username: this.$route.params.userid, offset } })
+            return this.axios.get('/', { params: { username: this.$route.params.userid, offset, userid: this.$store.state.User.UserID } })
             .then(response => {
                 return response.data
             })

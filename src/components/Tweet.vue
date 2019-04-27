@@ -10,7 +10,7 @@
                 </h2>
                 <h3>- {{Tweet.created}}</h3>
                 <div class="spacer"></div>
-                <font-awesome-icon v-if="isOwner" @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
+                <font-awesome-icon v-if="isOwner"  @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
                 <div v-if="isOwner"
                     class="buzz_option_container" 
                     :style="{'display' : ToggleOptions ? 'flex' : 'none' }"
@@ -28,7 +28,7 @@
     <div class="tweet_action_row">
         <div class="action_item_container" @click="likeBuzz()">
             <font-awesome-icon class="icon" :class="{'hearticon_color' : svgHeartStyle.toggle}" :icon="[svgHeartStyle.name, 'heart']" />
-            <p>{{Tweet.likes}}</p>
+            <p>{{Tweet.likeSize}}</p>
         </div>
         <div class="action_item_container">
             <font-awesome-icon class="icon" icon="comment-dots" />
@@ -59,10 +59,20 @@ export default {
     data(){
         return{
             ToggleOptions: false,
+            isUpdatingBuzz: false,
             svgHeartStyle: {
                 name: 'far',
                 toggle: false
             }
+        }
+    },
+    mounted(){
+        this.svgHeartStyle.toggle = this.Tweet.hasLiked
+        this.svgHeartStyle.name = this.svgHeartStyle.toggle ? 'fas' : 'far'
+    },
+    computed: {
+        updateLikesAmount(){
+          return this.svgHeartStyle.toggle ? 1 : -1
         }
     },
     methods: {
@@ -71,8 +81,24 @@ export default {
             this.$emit('deleteBuzz', this.Tweet.id)
         },
         likeBuzz(){
+            if(this.isUpdatingBuzz) return
+            
             this.svgHeartStyle.toggle = !this.svgHeartStyle.toggle
             this.svgHeartStyle.name = this.svgHeartStyle.toggle ? 'fas' : 'far'
+            this.Tweet.likeSize += this.updateLikesAmount
+            
+            const requestPath = this.svgHeartStyle.toggle ? '/likeBuzz' : '/unlikeBuzz'
+            this.isUpdatingBuzz = true
+            this.axios.post(requestPath, {userid: this.$store.state.User.UserID, Buzzid: this.Tweet.id})
+            .then(response => {
+                this.isUpdatingBuzz = false
+            })
+            .catch(error => {
+                this.svgHeartStyle.toggle = !this.svgHeartStyle.toggle
+                this.svgHeartStyle.name = this.svgHeartStyle.toggle ? 'fas' : 'far'
+                this.Tweet.likeSize += this.updateLikesAmount
+                this.isUpdatingBuzz = false
+            })
         }
     }
 }
