@@ -7,9 +7,10 @@ import router from './router'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCommentDots, faHeart, faRetweet, faCog, faHome, faComments, faSignOutAlt, faCheckSquare, faEllipsisH, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {faHeart as faHeartRegular} from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faCommentDots, faHeart, faRetweet, faCog, faHome, faComments, faSignOutAlt, faCheckSquare, faEllipsisH, faTrash)
+library.add(faCommentDots, faHeart, faRetweet, faCog, faHome, faComments, faSignOutAlt, faCheckSquare, faEllipsisH, faTrash, faHeartRegular)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueAxios, Axios)
 

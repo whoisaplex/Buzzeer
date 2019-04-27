@@ -27,7 +27,7 @@
     </div>
     <div class="tweet_action_row">
         <div class="action_item_container">
-            <font-awesome-icon class="icon" icon="heart" />
+            <font-awesome-icon class="icon" :icon="[svgHeartStyle, 'heart']" />
             <p>{{Tweet.likes}}</p>
         </div>
         <div class="action_item_container">
@@ -58,7 +58,8 @@ export default {
     },
     data(){
         return{
-            ToggleOptions: false
+            ToggleOptions: false,
+            svgHeartStyle: 'far'
         }
     },
     methods: {
