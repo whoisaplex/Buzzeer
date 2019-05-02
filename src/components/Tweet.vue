@@ -30,7 +30,7 @@
             <font-awesome-icon class="icon" :class="{'hearticon_color' : svgHeartStyle.toggle}" :icon="[svgHeartStyle.name, 'heart']" />
             <p>{{Tweet.likeSize}}</p>
         </div>
-        <div class="action_item_container">
+        <div class="action_item_container" @click="commentBuzz()">
             <font-awesome-icon class="icon" icon="comment-dots" />
             <p>{{Tweet.comments}}</p>
         </div>
@@ -99,6 +99,9 @@ export default {
                 this.Tweet.likeSize += this.updateLikesAmount
                 this.isUpdatingBuzz = false
             })
+        },
+        commentBuzz(){
+            this.$emit('toggleComments')
         }
     }
 }

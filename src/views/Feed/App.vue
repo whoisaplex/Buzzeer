@@ -11,9 +11,14 @@
         />
         <LoadingSpinner v-show="isPostingBuzz" />
         <template v-for="Buzz in Buzzes">
-            <Buzz :Tweet="Buzz" :key="Buzz.id" />
+            <Buzz 
+                :Tweet="Buzz" 
+                :key="Buzz.id"
+                @toggleComments="commentsToggle = true" 
+            />
         </template>
     </div>
+    <CommentsView :showToggle="commentsToggle" @toggle="commentsToggle = false"/>
 </div>
 </template>
 
@@ -23,6 +28,7 @@ import newBuzz from '@/components/UserViewComponents/NewTweet'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import FeedNavigation from './Components/FeedNavigation'
 import debounce from '@/globals/debounce'
+import CommentsView from '@/components/CommentsView'
 
 export default {
     name: 'Feed',
@@ -30,7 +36,8 @@ export default {
         Buzz,
         newBuzz,
         LoadingSpinner,
-        FeedNavigation
+        FeedNavigation,
+        CommentsView
     },
     mounted(){
         window.addEventListener('scroll', this.loadAdditionalBuzzes)
@@ -48,7 +55,8 @@ export default {
             BuzzesOffset: 0,
             GLOBAL_OFFSET: 6,
             CanLoadBuzzes: true,
-            isLoadingAdditionalBuzzes: false
+            isLoadingAdditionalBuzzes: false,
+            commentsToggle: false
         }
     },
     methods: {

@@ -24,10 +24,12 @@
                     :key="Tweet.id" 
                     :Tweet="Tweet"
                     :isOwner="false"
+                    @toggleComments="commentsToggle = true"
                 />
             </template>
         </div>
     </div>
+    <CommentsView :showToggle="commentsToggle" @toggle="commentsToggle = false"/>
 </div>
 </template>
 
@@ -37,6 +39,7 @@ import UserInfo from '@/components/UserViewComponents/UserInfo'
 import UserSearch from '@/components/UserViewComponents/UserSearch'
 import UserFollowButton from './Components/UserFollowButton'
 import debounce from '@/globals/debounce'
+import CommentsView from '@/components/CommentsView'
 
 import Tweet from '@/components/Tweet'
 import Loader from '@/components/LoadingSpinner'
@@ -49,7 +52,8 @@ export default {
         UserFollowButton,
         UserSearch,
         Tweet,
-        Loader
+        Loader,
+        CommentsView
     },
     data () {
         return {
@@ -62,7 +66,8 @@ export default {
             hasError: false,
             errorMsg: '',
             isTweeting: false,
-            isLoadingAdditionalBuzzees: false
+            isLoadingAdditionalBuzzees: false,
+            commentsToggle: false
         }
     },
     computed: {
