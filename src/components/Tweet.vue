@@ -10,7 +10,7 @@
                 </h2>
                 <h3>- {{Tweet.created}}</h3>
                 <div class="spacer"></div>
-                <font-awesome-icon v-if="isOwner" @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
+                <font-awesome-icon v-if="isOwner"  @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
                 <div v-if="isOwner"
                     class="buzz_option_container" 
                     :style="{'display' : ToggleOptions ? 'flex' : 'none' }"
@@ -26,11 +26,11 @@
         </div>
     </div>
     <div class="tweet_action_row">
-        <div class="action_item_container">
-            <font-awesome-icon class="icon" :icon="[svgHeartStyle, 'heart']" />
-            <p>{{Tweet.likes}}</p>
+        <div class="action_item_container" @click="likeBuzz()">
+            <font-awesome-icon class="icon" :class="{'hearticon_color' : svgHeartStyle.toggle}" :icon="[svgHeartStyle.name, 'heart']" />
+            <p>{{Tweet.likeSize}}</p>
         </div>
-        <div class="action_item_container">
+        <div class="action_item_container" @click="commentBuzz()">
             <font-awesome-icon class="icon" icon="comment-dots" />
             <p>{{Tweet.comments}}</p>
         </div>
@@ -59,13 +59,49 @@ export default {
     data(){
         return{
             ToggleOptions: false,
-            svgHeartStyle: 'far'
+            isUpdatingBuzz: false,
+            svgHeartStyle: {
+                name: 'far',
+                toggle: false
+            }
+        }
+    },
+    mounted(){
+        this.svgHeartStyle.toggle = this.Tweet.hasLiked
+        this.svgHeartStyle.name = this.svgHeartStyle.toggle ? 'fas' : 'far'
+    },
+    computed: {
+        updateLikesAmount(){
+          return this.svgHeartStyle.toggle ? 1 : -1
         }
     },
     methods: {
         deleteBuzz(){
             this.ToggleOptions = false
             this.$emit('deleteBuzz', this.Tweet.id)
+        },
+        likeBuzz(){
+            if(this.isUpdatingBuzz) return
+            
+            this.svgHeartStyle.toggle = !this.svgHeartStyle.toggle
+            this.svgHeartStyle.name = this.svgHeartStyle.toggle ? 'fas' : 'far'
+            this.Tweet.likeSize += this.updateLikesAmount
+            
+            const requestPath = this.svgHeartStyle.toggle ? '/likeBuzz' : '/unlikeBuzz'
+            this.isUpdatingBuzz = true
+            this.axios.post(requestPath, {userid: this.$store.state.User.UserID, Buzzid: this.Tweet.id})
+            .then(response => {
+                this.isUpdatingBuzz = false
+            })
+            .catch(error => {
+                this.svgHeartStyle.toggle = !this.svgHeartStyle.toggle
+                this.svgHeartStyle.name = this.svgHeartStyle.toggle ? 'fas' : 'far'
+                this.Tweet.likeSize += this.updateLikesAmount
+                this.isUpdatingBuzz = false
+            })
+        },
+        commentBuzz(){
+            this.$emit('toggleComments')
         }
     }
 }
@@ -126,6 +162,12 @@ export default {
 .icon{
     margin-right: 5px;
     color: #a61e6d;
+}
+.hearticon_color{
+    color:#43A047;
+}
+.action_item_container:hover .hearticon_color{
+    color:#66BB6A;
 }
 .buzz_option {cursor: pointer;}
 h1{
