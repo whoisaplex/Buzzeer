@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { setTimeout } from 'timers';
 export default {
     name: 'Tweet',
     props: {
@@ -101,6 +102,8 @@ export default {
             })
         },
         commentBuzz(){
+            const StoreDATA = { BuzzId: this.Tweet.id }
+            this.$store.commit('SET_COMMENT_DATA', StoreDATA)
             this.$emit('toggleComments')
         }
     }

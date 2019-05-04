@@ -33,7 +33,7 @@
             </template>
         </div>
     </div>
-    <CommentsView :showToggle="commentsToggle" @toggle="commentsToggle = false"/>
+    <CommentsView v-if="commentsToggle" @toggle="commentsToggle = false"/>
 </div>
 </template>
 

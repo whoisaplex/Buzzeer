@@ -1,13 +1,18 @@
 <template>
-<div class="dialog_container" v-if="showToggle" @click="closeComment($event)">
+<div class="dialog_container" @click="closeComment($event)">
     <div class="main_container">
-        <textarea placeholder="Write a comment..."/>
+        <textarea v-model="CommentInput" placeholder="Write a comment..."/>
         <div class="button_container">
-            <button>Comment</button>
+            <button @click="postComment()">Comment</button>
         </div>
         <div class="comments_container">
-            <Comment/>
-            <Comment/>
+            <Comment v-for="Comment in Comments" :key="Comment.id" :Comment="Comment"/>
+            <p v-if="hasLoadedComments && 
+                Comments.length === 0"
+                class="comment_nocontent"
+            >
+                There are no comments to load...
+            </p>
         </div>
     </div>
 </div>
@@ -20,10 +25,13 @@ export default {
     components: {
         Comment
     },
-    props: {
-        showToggle: {
-            type: Boolean,
-            required: true
+    data(){
+        return {
+            Comments: [],
+            CommentInput: '',
+            isPostingComment: false,
+            isLoadingComments: false,
+            hasLoadedComments: false,
         }
     },
     methods: {
@@ -31,7 +39,47 @@ export default {
             if(event.srcElement.className !== '' && event.srcElement.className === 'dialog_container'){
                 this.$emit('toggle')
             }
+        },
+        postComment(){
+            if(this.isPostingComment || this.CommentInput === '') return
+            this.isPostingComment = true
+            const postData = {
+                BuzzId: this.$store.state.Comment.BuzzId,
+                CreatorId: this.$store.state.User.UserID,
+                CreatorName: this.$store.state.User.Fullname,
+                CreatorUsername: this.$store.state.User.Username,
+                content: this.CommentInput
+            }
+            this.axios.post('/comments', postData)
+            .then(response => {
+                this.Comments.unshift(response.data[0])
+            }).catch(() => {
+
+            }).finally(() => {
+                this.CommentInput = ''
+                this.isPostingComment = false
+            })
+        },
+        getComments(){
+            if(this.isLoadingComments) return
+            this.isLoadingComments = true
+            this.axios.get('/comments', {
+                params: {
+                    BuzzId: this.$store.state.Comment.BuzzId
+                }
+            })
+            .then(response => {
+                this.Comments = response.data
+            }).catch(() => {
+
+            }).finally(() => {
+                this.isLoadingComments = false
+                this.hasLoadedComments = true
+            })
         }
+    },
+    mounted(){
+        this.getComments()
     }
 }
 </script>
@@ -71,6 +119,9 @@ export default {
     width:70%;
     display:flex;
     justify-content: flex-end;
+}
+.comment_nocontent{
+    color:grey;
 }
 button{
     padding: 10px 15px;

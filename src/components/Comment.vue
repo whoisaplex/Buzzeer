@@ -2,14 +2,27 @@
 <div class="comment_container">
     <div class="comment_image"></div>
     <div class="comment_content">
-        <p>Hello this is a comment just to see who things are going for you and me brother. And just for the record, even though i seem gay sometimes... im really not. Hello this is a comment just to see who things are going for you and me brother. And just for the record, even though i seem gay sometimes... im really not.</p>
+        <p>{{Comment.creatorName}} <span @click="GOTO_User()" class="comment_username">@{{Comment.creatorUsername}}</span></p>
+        <p class="comment_content_body">{{Comment.content}}</p>
+        <p class="comment_created">{{Comment.created}}</p>
     </div>
 </div>
 </template>
 
 <script>
 export default {
-    name: 'Comment'
+    name: 'Comment',
+    props: {
+        Comment: {
+            type: Object,
+            required: true
+        }
+    },
+    methods: {
+        GOTO_User(){
+            this.$router.push({name: 'user', params: { userid: this.Comment.creatorUsername} })
+        }
+    }
 }
 </script>
 
@@ -29,12 +42,31 @@ export default {
     background:white;
     border-radius:50%;
     margin-top:10px;
+    margin-bottom: 10px;
     margin-left: 10px;
 }
 .comment_content{
     max-width: calc(100% - 80px);
+    width: calc(100% - 80px);
     margin-top:10px;
     padding-bottom: 10px;
+}
+.comment_username{
+    font-size: 14px;
+    color: #e32b96;
+    cursor:pointer;
+}
+.comment_username:hover{
+    text-decoration: underline;
+}
+.comment_content_body{
+    padding-top:5px;
+}
+.comment_created{
+    width:95%;
+    font-size: 14px;
+    text-align: end;
+    color: #828282;
 }
 p{
     padding: 0px 10px;
