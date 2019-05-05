@@ -6,7 +6,11 @@
             <button @click="postComment()">Comment</button>
         </div>
         <div class="comments_container">
-            <Comment v-for="Comment in Comments" :key="Comment.id" :Comment="Comment"/>
+            <Comment v-for="Comment in Comments" 
+                :key="Comment.id" 
+                :Comment="Comment"
+                @deleteComment="deleteComment"
+            />
             <p v-if="hasLoadedComments && 
                 Comments.length === 0"
                 class="comment_nocontent"
@@ -65,7 +69,8 @@ export default {
             this.isLoadingComments = true
             this.axios.get('/comments', {
                 params: {
-                    BuzzId: this.$store.state.Comment.BuzzId
+                    BuzzId: this.$store.state.Comment.BuzzId,
+                    UserId: this.$store.state.User.UserID
                 }
             })
             .then(response => {
@@ -76,6 +81,10 @@ export default {
                 this.isLoadingComments = false
                 this.hasLoadedComments = true
             })
+        },
+        deleteComment(id){
+            let index = this.Comments.map(Comment => Comment.id).indexOf(id)
+            this.Comments.splice(index, 1)
         }
     },
     mounted(){
