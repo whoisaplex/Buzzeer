@@ -33,7 +33,7 @@
             </template>
         </div>
     </div>
-    <CommentsView :showToggle="commentsToggle" @toggle="commentsToggle = false"/>
+    <CommentsView v-if="commentsToggle" @toggle="commentsToggle = false"/>
 </div>
 </template>
 
@@ -66,11 +66,11 @@ export default {
             Buzzees: [],
             PreviousBuzzeesLength: 0,
             BuzzeesOffset: 0,
-            CanLoadBuzzees: true,
             User: {},
             hasLoaded: false,
             hasError: false,
             isTweeting: false,
+            CanLoadBuzzees: true,
             isLoadingAdditionalBuzzees: false,
             commentsToggle: false
         }

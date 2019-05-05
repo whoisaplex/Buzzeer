@@ -14,6 +14,9 @@ export default new Vuex.Store({
       UserID: '',
       Fullname: '',
       Username: ''
+    },
+    Comment: {
+      BuzzId: ''
     }
   },
   mutations: {
@@ -24,6 +27,9 @@ export default new Vuex.Store({
       state.User.UserID = TOKEN_DATA.Id
       state.User.Fullname = TOKEN_DATA.Fullname
       state.User.Username = TOKEN_DATA.Username
+    },
+    SET_COMMENT_DATA(state, COMMENT_DATA){
+      state.Comment.BuzzId = COMMENT_DATA.BuzzId
     }
   },
   getters: {

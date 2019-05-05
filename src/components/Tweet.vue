@@ -10,8 +10,8 @@
                 </h2>
                 <h3>- {{Tweet.created}}</h3>
                 <div class="spacer"></div>
-                <font-awesome-icon v-if="isOwner"  @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
-                <div v-if="isOwner"
+                <font-awesome-icon v-if="Tweet.isOwner"  @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
+                <div v-if="Tweet.isOwner"
                     class="buzz_option_container" 
                     :style="{'display' : ToggleOptions ? 'flex' : 'none' }"
                     @click="deleteBuzz()"
@@ -43,17 +43,13 @@
 </template>
 
 <script>
+import { setTimeout } from 'timers';
 export default {
     name: 'Tweet',
     props: {
         Tweet: {
             type: Object,
             required: true
-        },
-        isOwner: {
-            type: Boolean,
-            required: false,
-            default: false
         }
     },
     data(){
@@ -101,6 +97,8 @@ export default {
             })
         },
         commentBuzz(){
+            const StoreDATA = { BuzzId: this.Tweet.id }
+            this.$store.commit('SET_COMMENT_DATA', StoreDATA)
             this.$emit('toggleComments')
         }
     }
