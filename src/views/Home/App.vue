@@ -6,7 +6,6 @@
     <div class="Home_navigation_container">
         <UserInfo :User="User"/>
         <UserStats :User="User"/>
-        <UserSearch/>
         <UserTweetButton @startBuzz="startBuzz"/>
     </div>
     <div class="tweets_container">
@@ -41,7 +40,6 @@
 import UserStats from '@/components/UserViewComponents/UserStats'
 import UserInfo from '@/components/UserViewComponents/UserInfo'
 import UserTweetButton from '@/components/UserViewComponents/UserTweetButton'
-import UserSearch from '@/components/UserViewComponents/UserSearch'
 import NewTweet from '@/components/UserViewComponents/NewTweet'
 import CommentsView from '@/components/CommentsView'
 
@@ -55,7 +53,6 @@ export default {
         UserStats,
         UserInfo,
         UserTweetButton,
-        UserSearch,
         Tweet,
         NewTweet,
         Loader,

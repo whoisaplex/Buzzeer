@@ -15,6 +15,7 @@
                 :Tweet="Buzz" 
                 :key="Buzz.id"
                 @toggleComments="commentsToggle = true" 
+                @deleteBuzz="deleteBuzz"
             />
         </template>
     </div>
@@ -68,6 +69,17 @@ export default {
         },
         stopLoader(){
             this.isPostingBuzz = false
+        },
+        deleteBuzz(id){
+            this.axios.delete('/deleteBuzz', { data: {
+                id: id,
+                user_id: this.$store.state.User.UserID
+            }}).then(response => {
+                let index = this.Buzzes.map(Buzz => Buzz.id).indexOf(id)
+                this.Buzzes.splice(index, 1)
+            }).catch(() => {
+
+            })
         },
         async dataInitializer(){
             const Buzzes = await this.getBuzzes(0)
