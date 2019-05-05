@@ -66,11 +66,11 @@ export default {
             Buzzees: [],
             PreviousBuzzeesLength: 0,
             BuzzeesOffset: 0,
-            CanLoadBuzzees: true,
             User: {},
             hasLoaded: false,
             hasError: false,
             isTweeting: false,
+            CanLoadBuzzees: true,
             isLoadingAdditionalBuzzees: false,
             commentsToggle: false
         }

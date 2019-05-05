@@ -10,8 +10,8 @@
                 </h2>
                 <h3>- {{Tweet.created}}</h3>
                 <div class="spacer"></div>
-                <font-awesome-icon v-if="isOwner"  @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
-                <div v-if="isOwner"
+                <font-awesome-icon v-if="Tweet.isOwner"  @click="ToggleOptions = !ToggleOptions" class="icon buzz_option" icon="ellipsis-h" />
+                <div v-if="Tweet.isOwner"
                     class="buzz_option_container" 
                     :style="{'display' : ToggleOptions ? 'flex' : 'none' }"
                     @click="deleteBuzz()"
@@ -50,11 +50,6 @@ export default {
         Tweet: {
             type: Object,
             required: true
-        },
-        isOwner: {
-            type: Boolean,
-            required: false,
-            default: false
         }
     },
     data(){
