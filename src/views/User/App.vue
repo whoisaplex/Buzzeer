@@ -38,6 +38,7 @@ import UserInfo from '@/components/UserViewComponents/UserInfo'
 import UserFollowButton from './Components/UserFollowButton'
 import debounce from '@/globals/debounce'
 import CommentsView from '@/components/CommentsView'
+import RebuzzView from '@/components/RebuzzView'
 
 import Tweet from '@/components/Tweet'
 import Loader from '@/components/LoadingSpinner'
@@ -50,7 +51,8 @@ export default {
         UserFollowButton,
         Tweet,
         Loader,
-        CommentsView
+        CommentsView,
+        RebuzzView
     },
     data () {
         return {

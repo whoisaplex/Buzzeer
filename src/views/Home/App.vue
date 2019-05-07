@@ -28,11 +28,13 @@
                     :Tweet="Tweet"
                     @deleteBuzz="deleteBuzz"
                     @toggleComments="commentsToggle = true"
+                    @toggleRebuzz="rebuzzToggle = true"
                 />
             </template>
         </div>
     </div>
     <CommentsView v-if="commentsToggle" @toggle="commentsToggle = false"/>
+    <RebuzzView v-if="rebuzzToggle" @toggle="rebuzzToggle = false"/>
 </div>
 </template>
 
@@ -42,6 +44,7 @@ import UserInfo from '@/components/UserViewComponents/UserInfo'
 import UserTweetButton from '@/components/UserViewComponents/UserTweetButton'
 import NewTweet from '@/components/UserViewComponents/NewTweet'
 import CommentsView from '@/components/CommentsView'
+import RebuzzView from '@/components/RebuzzView'
 
 import Tweet from '@/components/Tweet'
 import Loader from '@/components/LoadingSpinner'
@@ -56,7 +59,8 @@ export default {
         Tweet,
         NewTweet,
         Loader,
-        CommentsView
+        CommentsView,
+        RebuzzView
     },
     data () {
         return {
@@ -69,7 +73,8 @@ export default {
             isTweeting: false,
             CanLoadBuzzees: true,
             isLoadingAdditionalBuzzees: false,
-            commentsToggle: false
+            commentsToggle: false,
+            rebuzzToggle: false
         }
     },
     methods: {

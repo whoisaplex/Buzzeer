@@ -34,7 +34,7 @@
             <font-awesome-icon class="icon" icon="comment-dots" />
             <p>{{Tweet.comments}}</p>
         </div>
-        <div class="action_item_container">
+        <div class="action_item_container" @click="reBuzz()">
             <font-awesome-icon class="icon" icon="retweet" />
             <p>{{Tweet.retweets}}</p>
         </div>
@@ -100,6 +100,16 @@ export default {
             const StoreDATA = { BuzzId: this.Tweet.id }
             this.$store.commit('SET_COMMENT_DATA', StoreDATA)
             this.$emit('toggleComments')
+        },
+        reBuzz(){
+            const StoreDATA = {
+                BuzzId: this.Tweet.id,
+                BuzzName: this.Tweet.creatorName,
+                BuzzUsername: this.Tweet.creatorUsername,
+                BuzzContent: this.Tweet.content
+            }
+            this.$store.commit('SET_COMMENT_DATA', StoreDATA)
+            this.$emit('toggleRebuzz')
         }
     }
 }
