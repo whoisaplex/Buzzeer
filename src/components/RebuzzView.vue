@@ -5,7 +5,7 @@
             <h2>Rebuzz this to your followers?</h2>
             <textarea v-model="InputText" type="text" placeholder="Add a comment..."/>
         </div>
-        <div class="buzz_container">
+        <div class="buzz_container" v-if="!isPostingRebuzz">
             <div class="buzz_user_container">
                 <p class="fullname_text">{{$store.state.Comment.BuzzName}} <span class="username_text">@{{$store.state.Comment.BuzzUsername}}</span></p>
             </div>
@@ -13,16 +13,21 @@
                 <p>{{$store.state.Comment.BuzzContent}}</p>
             </div>
         </div>
-        <div class="rebuzz_button_container">
+        <div class="rebuzz_button_container" v-if="!isPostingRebuzz">
             <button @click="sendRebuzz()">Rebuzz</button>
         </div>
+        <LoadingSpinner v-if="isPostingRebuzz" class="mt-20"/>
     </div>
 </div>
 </template>
 
 <script>
+import LoadingSpinner from '@/components/LoadingSpinner'
 export default {
     name: 'RebuzzView',
+    components: {
+        LoadingSpinner
+    },
     data(){
         return{
             InputText: '',
@@ -52,7 +57,7 @@ export default {
             }
             this.axios.post('Rebuzz', Data)
             .then(response => {
-                console.log(response.data)
+                this.$emit('toggle')
             })
             .catch(() => {
                 this.hasError = true

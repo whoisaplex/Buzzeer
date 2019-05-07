@@ -14,12 +14,15 @@
             <Buzz 
                 :Tweet="Buzz" 
                 :key="Buzz.id"
-                @toggleComments="commentsToggle = true" 
+                @toggleComments="commentsToggle = true"
+                @toggleRebuzz="rebuzzToggle = true" 
                 @deleteBuzz="deleteBuzz"
+                @deleteRebuzz="deleteRebuzz"
             />
         </template>
     </div>
     <CommentsView v-if="commentsToggle" @toggle="commentsToggle = false"/>
+    <RebuzzView v-if="rebuzzToggle" @toggle="rebuzzToggle = false"/>
 </div>
 </template>
 
@@ -59,7 +62,8 @@ export default {
             GLOBAL_OFFSET: 6,
             CanLoadBuzzes: true,
             isLoadingAdditionalBuzzes: false,
-            commentsToggle: false
+            commentsToggle: false,
+            rebuzzToggle: false
         }
     },
     methods: {
@@ -78,6 +82,17 @@ export default {
                 user_id: this.$store.state.User.UserID
             }}).then(response => {
                 let index = this.Buzzes.map(Buzz => Buzz.id).indexOf(id)
+                this.Buzzes.splice(index, 1)
+            }).catch(() => {
+
+            })
+        },
+        deleteRebuzz(ids){
+            const {id, ogId} = ids
+            const index = this.Buzzes.map(Buzz => Buzz.id).indexOf(id)
+
+            this.axios.delete('/deleteRebuzz', {data: {id, ogId, userId: this.$store.state.User.UserID }})
+            .then(response => {
                 this.Buzzes.splice(index, 1)
             }).catch(() => {
 

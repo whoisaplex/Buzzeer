@@ -41,6 +41,9 @@ body{
 }
 .router{ margin-left:70px;}
 .spacer{ flex-grow: 1;}
+.mt-10{ margin-top: 10px; }
+.mt-20{ margin-top: 20px; }
+.mt-30{ margin-top: 30px; }
 .flex_column_middle{
   display:flex;
   flex-direction: column;

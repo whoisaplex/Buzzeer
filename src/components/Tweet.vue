@@ -23,6 +23,19 @@
             <div class="tweet_content_body">
                 <p>{{Tweet.content}}</p>
             </div>
+            <div v-if="Tweet.isRebuzz" class="rebuzz_container">
+                <div class="rebuzz_image_container">
+                    <div class="rebuzz_profile_image"></div>
+                </div>
+                <div class="rebuzz_content_container">
+                    <div class="rebuzz_content_info">
+                        <p>{{Tweet.OGCreatorName}} <span>@{{Tweet.OGCreatorUsername}}</span></p>
+                    </div>
+                    <div class="rebuzz_content_content">
+                        <p>{{Tweet.OGContent}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="tweet_action_row">
@@ -34,7 +47,7 @@
             <font-awesome-icon class="icon" icon="comment-dots" />
             <p>{{Tweet.comments}}</p>
         </div>
-        <div class="action_item_container" @click="reBuzz()">
+        <div v-if="!Tweet.isRebuzz" class="action_item_container" @click="reBuzz()">
             <font-awesome-icon class="icon" icon="retweet" />
             <p>{{Tweet.retweets}}</p>
         </div>
@@ -74,7 +87,11 @@ export default {
     methods: {
         deleteBuzz(){
             this.ToggleOptions = false
-            this.$emit('deleteBuzz', this.Tweet.id)
+            if(this.Tweet.isRebuzz){
+                this.$emit('deleteRebuzz', { id: this.Tweet.id, ogId: this.Tweet.OGBuzzId })
+            }else{
+                this.$emit('deleteBuzz', this.Tweet.id)
+            }
         },
         likeBuzz(){
             if(this.isUpdatingBuzz) return
@@ -214,5 +231,43 @@ h2, h3{
 }
 .buzz_option_container .delete_icon {
     padding: 10px 0px 10px 5px;
+}
+.rebuzz_container{
+    width:100%;
+    background:#1a1a1a;
+    border: solid 1px #282828;
+    border-radius: 3px;
+    margin-top:10px;
+    display:flex;
+}
+.rebuzz_image_container{
+    width: 60px;
+}
+.rebuzz_profile_image{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    background: white;
+    margin: 10px 0px 10px 10px;
+}
+.rebuzz_content_container{
+    width: calc(100% - 70px);
+    display:flex;
+    flex-direction: column;
+    color:white;
+}
+.rebuzz_content_info{
+    margin-top:10px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+.rebuzz_content_info span{
+    color:#e32b96;
+    cursor:pointer;
+    font-weight: normal;
+}
+.rebuzz_content_content{
+    margin-left: 10px;
+    margin-top: 5px;
 }
 </style>

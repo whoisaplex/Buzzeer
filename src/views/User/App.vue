@@ -24,11 +24,13 @@
                     :Tweet="Tweet"
                     :isOwner="false"
                     @toggleComments="commentsToggle = true"
+                    @toggleRebuzz="rebuzzToggle = true"
                 />
             </template>
         </div>
     </div>
     <CommentsView v-if="commentsToggle" @toggle="commentsToggle = false"/>
+    <RebuzzView v-if="rebuzzToggle" @toggle="rebuzzToggle = false"/>
 </div>
 </template>
 
@@ -66,7 +68,8 @@ export default {
             errorMsg: '',
             isTweeting: false,
             isLoadingAdditionalBuzzees: false,
-            commentsToggle: false
+            commentsToggle: false,
+            rebuzzToggle: false
         }
     },
     computed: {

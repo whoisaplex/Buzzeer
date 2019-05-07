@@ -27,6 +27,7 @@
                     :key="Tweet.id" 
                     :Tweet="Tweet"
                     @deleteBuzz="deleteBuzz"
+                    @deleteRebuzz="deleteRebuzz"
                     @toggleComments="commentsToggle = true"
                     @toggleRebuzz="rebuzzToggle = true"
                 />
@@ -92,6 +93,17 @@ export default {
             this.axios.delete('/deleteBuzz', {data: {id, user_id: this.$store.state.User.UserID}})
             .then(() => {
                 this.Buzzees.splice(index, 1)
+            })
+        },
+        deleteRebuzz(ids){
+            const {id, ogId} = ids
+            const index = this.Buzzees.map(Buzz => Buzz.id).indexOf(id)
+
+            this.axios.delete('/deleteRebuzz', {data: {id, ogId, userId: this.$store.state.User.UserID }})
+            .then(response => {
+                this.Buzzees.splice(index, 1)
+            }).catch(() => {
+
             })
         },
         async dataInitializer(){
