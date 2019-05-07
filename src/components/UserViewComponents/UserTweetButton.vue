@@ -14,7 +14,7 @@ export default {
 .container_sub{
     display: flex;
     justify-content: flex-end;
-    width: calc(100% / 3 - 210px);
+    width: calc(100% / 3);
 }
 button{
     padding: 9px 25px;

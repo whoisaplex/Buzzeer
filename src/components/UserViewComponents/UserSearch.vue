@@ -20,7 +20,7 @@ export default {
         }
     },
     methods: {
-        searchUsers: debounce(() => {
+        searchUsers: debounce(function(){
         
         }, 500)
     }

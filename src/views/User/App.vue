@@ -6,7 +6,6 @@
     <div class="Home_navigation_container">
         <UserInfo :User="User" v-if="!CHECK_hasError"/>
         <UserStats :User="User" v-if="!CHECK_hasError"/>
-        <UserSearch :isSolo="CHECK_hasError"/>
         <UserFollowButton v-if="!CHECK_hasError" :User="User"/>
     </div>
     <div class="tweets_container">
@@ -36,7 +35,6 @@
 <script>
 import UserStats from '@/components/UserViewComponents/UserStats'
 import UserInfo from '@/components/UserViewComponents/UserInfo'
-import UserSearch from '@/components/UserViewComponents/UserSearch'
 import UserFollowButton from './Components/UserFollowButton'
 import debounce from '@/globals/debounce'
 import CommentsView from '@/components/CommentsView'
@@ -50,7 +48,6 @@ export default {
         UserStats,
         UserInfo,
         UserFollowButton,
-        UserSearch,
         Tweet,
         Loader,
         CommentsView
