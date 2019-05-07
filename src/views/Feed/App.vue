@@ -30,6 +30,7 @@ import LoadingSpinner from '@/components/LoadingSpinner'
 import FeedNavigation from './Components/FeedNavigation'
 import debounce from '@/globals/debounce'
 import CommentsView from '@/components/CommentsView'
+import RebuzzView from '@/components/RebuzzView'
 
 export default {
     name: 'Feed',
@@ -38,7 +39,8 @@ export default {
         newBuzz,
         LoadingSpinner,
         FeedNavigation,
-        CommentsView
+        CommentsView,
+        RebuzzView
     },
     mounted(){
         window.addEventListener('scroll', this.loadAdditionalBuzzes)
