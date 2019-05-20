@@ -3,7 +3,7 @@
     <div class="navigation_container">
         <img @click="$router.push({name: 'feed'})" src="../assets/Buzzer.png" />
         <font-awesome-icon @click="$router.push({name: 'home'})" class="icon" icon="home" />
-        <font-awesome-icon class="icon" icon="comments" />
+        <font-awesome-icon @click="$router.push({name: 'messages'})" class="icon" icon="comments" />
     </div>
     <div class="navigation_spacer"></div>
     <font-awesome-icon class="icon" icon="cog" />

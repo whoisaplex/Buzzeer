@@ -8,6 +8,8 @@ import Signup from './views/Signup/App'
 import Home from './views/Home/App'
 import User from './views/User/App'
 import Feed from './views/Feed/App'
+import Messages from './views/Messages/App'
+import Conversation from './views/Messages/Conversation'
 
 Vue.use(Router)
 
@@ -39,6 +41,16 @@ const router = new Router({
       path: '/feed',
       name: 'feed',
       component: Feed
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: Messages
+    },
+    {
+      path: '/messages/conversation/:id',
+      name: 'conversation',
+      component: Conversation
     }
   ]
 })
